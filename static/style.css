@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    color: black;
+}
+
+.site-header {
+    background: navy;
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.site-header .brand a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.main-nav a {
+    color: white;
+    margin-left: 12px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.hero {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.btn {
+    display: inline-block;
+    background: darkblue;
+    color: white;
+    padding: 8px 14px;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 8px;
+}
+
+.form label {
+    display: block;
+    margin-top: 10px;
+}
+
+.form input, .form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 6px;
+    box-sizing: border-box;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+}
+
+.table th, .table td {
+    border: 1px solid lightgray;
+    padding: 8px;
+    text-align: left;
+}
+
+.flashes {
+    margin-bottom: 10px;
+}
+
+.flash.success {
+    background: lightgreen;
+    color: darkgreen;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.flash.danger {
+    background: lightcoral;
+    color: darkred;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.flash.warning {
+    background: lightyellow;
+    color: darkgoldenrod;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.site-footer {
+    text-align: center;
+    padding: 12px;
+    border-top: 1px solid lightgray;
+    margin-top: 30px;
+    color: dimgray;
+}

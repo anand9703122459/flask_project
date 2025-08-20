@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2>Welcome, {{ user }}!</h2>
+
+<h3>Services we provide</h3>
+<ul>
+  {% for s in services %}
+    <li><strong>{{ s.name }}</strong> — {{ s.desc }}</li>
+  {% endfor %}
+</ul>
+
+<h3>Previous Projects</h3>
+<ul>
+  {% for p in projects %}
+    <li><strong>{{ p['title'] }}</strong> — {{ p['description'] }}{% if p['year'] %} ({{ p['year'] }}){% endif %}</li>
+  {% endfor %}
+</ul>
+
+<h3>Accomplishments</h3>
+<ul>
+  <li>99.9% uptime for managed websites</li>
+  <li>15+ successful product deliveries</li>
+  <li>Trusted by enterprise & startups</li>
+</ul>
+{% endblock %}

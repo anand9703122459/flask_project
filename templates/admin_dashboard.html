@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+<p><a class="btn" href="{{ url_for('admin_add_customer') }}">Add Customer</a></p>
+
+<table class="table">
+  <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Actions</th></tr></thead>
+  <tbody>
+    {% for c in customers %}
+      <tr>
+        <td>{{ c['id'] }}</td>
+        <td>{{ c['name'] }}</td>
+        <td>{{ c['email'] }}</td>
+        <td>{{ c['phone'] }}</td>
+        <td>
+          <a href="{{ url_for('admin_edit_customer', cid=c['id']) }}">Edit</a> |
+          <a href="{{ url_for('admin_delete_customer', cid=c['id']) }}" onclick="return confirm('Delete this customer?')">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

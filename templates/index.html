@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Welcome to {{ COMPANY_NAME }}</h1>
+  <p>We build scalable websites and custom software solutions that grow with your business.</p>
+  <a class="btn" href="{{ url_for('services') }}">Explore Services</a>
+</section>
+{% endblock %}

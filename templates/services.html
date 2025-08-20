@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Services{% endblock %}
+{% block content %}
+<h2>Our Services</h2>
+<div class="services-grid">
+  {% for s in services %}
+    <div class="card">
+      <h3>{{ s.name }}</h3>
+      <p>{{ s.desc }}</p>
+    </div>
+  {% endfor %}
+</div>
+
+<h2>Recent Projects</h2>
+<ul>
+  {% for p in projects %}
+    <li><strong>{{ p['title'] }}</strong> — {{ p['description'] }}{% if p['year'] %} ({{ p['year'] }}){% endif %}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

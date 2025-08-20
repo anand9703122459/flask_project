@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ COMPANY_NAME }} - {% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand"><a href="{{ url_for('index') }}">{{ COMPANY_NAME }}</a></div>
+    <nav class="main-nav">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('services') }}">Services</a>
+      <a href="{{ url_for('about') }}">About</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+
+      {% if session.get('user') %}
+        <a href="{{ url_for('customer_dashboard') }}">My Dashboard</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+      {% endif %}
+
+      {% if session.get('admin') %}
+        <a href="{{ url_for('admin_dashboard') }}">Admin</a>
+        <a href="{{ url_for('admin_logout') }}">Admin Logout</a>
+      {% else %}
+        <a href="{{ url_for('admin_page') }}">Admin</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flashes">
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">© {{ COMPANY_NAME }} · 2025</footer>
+</body>
+</html>
