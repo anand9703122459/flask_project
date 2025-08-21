@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3, os
 
 app = Flask(__name__)
-app.secret_key = "change_this_secret"  # change this in production
+app.secret_key = "change_this_secret"  
 
 COMPANY_NAME = "AN Tech Solutions"
 
@@ -68,7 +68,7 @@ def init_db():
 def inject_globals():
     return {"COMPANY_NAME": COMPANY_NAME}
 
-# ---------------- Public pages ----------------
+# Public pages 
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -108,7 +108,7 @@ def contact():
         return redirect(url_for("contact"))
     return render_template("contact.html")
 
-# ---------------- Customer auth & dashboard ----------------
+# Customer Authorization and Dashboard
 @app.route("/register", methods=["GET","POST"])
 def register():
     if request.method == "POST":
@@ -168,8 +168,8 @@ def customer_dashboard():
     conn.close()
     return render_template("customer_dashboard.html", user=session["user"], services=services, projects=projects)
 
-# ---------------- Admin auth ----------------
-@app.route("/admin")                # Admin main entry (shows login/register options)
+# Admin Section
+@app.route("/admin")                # Admin main entry
 def admin_page():
     return render_template("admin_page.html")
 
@@ -218,7 +218,7 @@ def admin_logout():
     flash("Admin logged out.", "info")
     return redirect(url_for("admin_page"))
 
-# ---------------- Admin Dashboard & CRUD ----------------
+# Admin Dashboard & CRUD operations
 @app.route("/admin/dashboard")
 def admin_dashboard():
     if "admin" not in session:
@@ -292,7 +292,7 @@ def admin_delete_customer(cid):
     flash("Customer deleted.", "info")
     return redirect(url_for("admin_dashboard"))
 
-# --------------- Run ---------------
+# Main Function Run
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)
