@@ -1,0 +1,938 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SmartWorkshop Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    /* Toast notification style */
+    #toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #10b981;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      z-index: 1000;
+    }
+    #toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <div id="app" class="flex-grow flex flex-col">
+    <!-- Toast Notification -->
+    <div id="toast" class="hidden"></div>
+
+    <!-- Home Page -->
+    <section id="home" class="flex flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-br from-blue-400 to-indigo-600 text-white">
+      <h1 class="text-4xl font-bold mb-10">Welcome to SmartWorkshop</h1>
+      <div class="flex space-x-6">
+        <button
+          id="btnLogin"
+          class="px-8 py-3 bg-white text-indigo-700 font-semibold rounded-lg shadow-md hover:bg-gray-100 transition"
+        >
+          Login
+        </button>
+        <button
+          id="btnSignup"
+          class="px-8 py-3 bg-white text-indigo-700 font-semibold rounded-lg shadow-md hover:bg-gray-100 transition"
+        >
+          Signup
+        </button>
+      </div>
+    </section>
+
+    <!-- Login Modal -->
+    <section
+      id="loginSection"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden"
+    >
+      <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-8 relative">
+        <h2 class="text-2xl font-semibold mb-6 text-indigo-700">Login</h2>
+        <form id="loginForm" class="space-y-5">
+          <div>
+            <label for="loginName" class="block text-gray-700 font-medium mb-1">Name</label>
+            <input
+              type="text"
+              id="loginName"
+              name="loginName"
+              required
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Enter your name"
+            />
+          </div>
+          <div>
+            <label for="loginPassword" class="block text-gray-700 font-medium mb-1">Password</label>
+            <input
+              type="password"
+              id="loginPassword"
+              name="loginPassword"
+              required
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Enter your password"
+            />
+          </div>
+          <div class="flex justify-end space-x-3">
+            <button
+              type="button"
+              id="loginCancel"
+              class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Signup Modal -->
+    <section
+      id="signupSection"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden"
+    >
+      <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-8 relative overflow-y-auto max-h-[90vh]">
+        <h2 class="text-2xl font-semibold mb-6 text-indigo-700">Signup</h2>
+        <form id="signupForm" class="space-y-5">
+          <div>
+            <label for="signupName" class="block text-gray-700 font-medium mb-1">Name</label>
+            <input
+              type="text"
+              id="signupName"
+              name="signupName"
+              required
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Enter your name"
+            />
+          </div>
+          <div>
+            <label for="signupPhone" class="block text-gray-700 font-medium mb-1">Phone Number</label>
+            <input
+              type="tel"
+              id="signupPhone"
+              name="signupPhone"
+              pattern="[0-9]{10,15}"
+              required
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Enter your phone number"
+            />
+          </div>
+          <div>
+            <label for="signupEmail" class="block text-gray-700 font-medium mb-1">Email</label>
+            <input
+              type="email"
+              id="signupEmail"
+              name="signupEmail"
+              required
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Enter your email"
+            />
+          </div>
+          <div>
+            <label for="signupPassword" class="block text-gray-700 font-medium mb-1">Password</label>
+            <input
+              type="password"
+              id="signupPassword"
+              name="signupPassword"
+              required
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Create a password"
+            />
+          </div>
+          <div class="flex justify-end space-x-3">
+            <button
+              type="button"
+              id="signupCancel"
+              class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+            >
+              Signup
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Customer Dashboard -->
+    <section id="dashboard" class="hidden flex flex-col min-h-screen bg-gray-100">
+      <header class="bg-indigo-700 text-white p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-semibold">SmartWorkshop - Customer Dashboard</h1>
+        <button
+          id="logoutBtn"
+          class="bg-indigo-600 hover:bg-indigo-800 px-4 py-2 rounded-md transition"
+          title="Logout"
+        >
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </header>
+
+      <main class="flex-grow p-6 max-w-5xl mx-auto space-y-10">
+        <!-- Buttons container -->
+        <div id="dashboardButtons" class="flex justify-center max-w-md mx-auto space-x-6">
+          <button
+            id="btnShowAddBike"
+            class="px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition flex items-center space-x-2"
+          >
+            <i class="fas fa-plus-circle"></i>
+            <span>Add Bike</span>
+          </button>
+          <button
+            id="btnShowBookService"
+            class="px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition flex items-center space-x-2"
+          >
+            <i class="fas fa-tools"></i>
+            <span>Book Service</span>
+          </button>
+        </div>
+
+        <!-- Add Bike Section -->
+        <section id="addBikeSection" class="bg-white rounded-lg shadow p-6 max-w-md mx-auto hidden">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-indigo-700">Add Bike</h2>
+            <button id="backFromAddBike" class="text-indigo-600 hover:text-indigo-800" title="Back to dashboard">
+              <i class="fas fa-arrow-left fa-lg"></i>
+            </button>
+          </div>
+          <form id="addBikeForm" class="space-y-4">
+            <div>
+              <label for="bikeModel" class="block text-gray-700 font-medium mb-1">Bike Model Name</label>
+              <input
+                type="text"
+                id="bikeModel"
+                name="bikeModel"
+                required
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                placeholder="Enter bike model name"
+              />
+            </div>
+            <div>
+              <label for="registrationNumber" class="block text-gray-700 font-medium mb-1">Registration Number</label>
+              <input
+                type="text"
+                id="registrationNumber"
+                name="registrationNumber"
+                required
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                placeholder="Enter registration number"
+              />
+            </div>
+            <button
+              type="submit"
+              class="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+            >
+              Add Bike
+            </button>
+          </form>
+          <div id="bikesList" class="mt-6">
+            <h3 class="text-lg font-semibold mb-2 text-indigo-600">Your Bikes</h3>
+            <ul class="list-disc list-inside text-gray-700 space-y-1" id="bikesUl">
+              <li class="italic text-gray-400">No bikes added yet.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Book Service Section -->
+        <section id="bookServiceSection" class="bg-white rounded-lg shadow p-6 max-w-md mx-auto hidden">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-indigo-700">Book Service</h2>
+            <button id="backFromBookService" class="text-indigo-600 hover:text-indigo-800" title="Back to dashboard">
+              <i class="fas fa-arrow-left fa-lg"></i>
+            </button>
+          </div>
+          <form id="bookServiceForm" class="space-y-4">
+            <div>
+              <label for="serviceBikeName" class="block text-gray-700 font-medium mb-1">Bike Name</label>
+              <select
+                id="serviceBikeName"
+                name="serviceBikeName"
+                required
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="" disabled selected>Select your bike</option>
+              </select>
+            </div>
+            <div>
+              <label for="serviceRegistrationNumber" class="block text-gray-700 font-medium mb-1">Registration Number</label>
+              <input
+                type="text"
+                id="serviceRegistrationNumber"
+                name="serviceRegistrationNumber"
+                readonly
+                class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2"
+                placeholder="Registration number auto-filled"
+              />
+            </div>
+            <div>
+              <label for="repairType" class="block text-gray-700 font-medium mb-1">Repair Type</label>
+              <select
+                id="repairType"
+                name="repairType"
+                required
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="" disabled selected>Select repair type</option>
+                <option value="Chain Tight">Chain Tight</option>
+                <option value="Clutch Loose">Clutch Loose</option>
+                <option value="Brake Tight">Brake Tight</option>
+                <option value="Carburetor Problem">Carburetor Problem</option>
+                <option value="Minor Engine Problem">Minor Engine Problem</option>
+              </select>
+            </div>
+            <button
+              type="submit"
+              class="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+            >
+              Book Service
+            </button>
+          </form>
+          <div id="servicesList" class="mt-6">
+            <h3 class="text-lg font-semibold mb-2 text-indigo-600">Your Service Bookings</h3>
+            <ul class="list-disc list-inside text-gray-700 space-y-1" id="servicesUl">
+              <li class="italic text-gray-400">No service bookings yet.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Track Repair Section -->
+        <section class="bg-white rounded-lg shadow p-6 max-w-md mx-auto">
+          <h2 class="text-xl font-semibold mb-4 text-indigo-700">Track Repair</h2>
+          <form id="trackRepairForm" class="flex space-x-3">
+            <input
+              type="text"
+              id="trackIdInput"
+              name="trackIdInput"
+              placeholder="Enter unique service ID"
+              required
+              class="flex-grow border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+            <button
+              type="submit"
+              class="px-5 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+            >
+              Track
+            </button>
+          </form>
+          <div id="trackResult" class="mt-4 text-gray-700"></div>
+        </section>
+      </main>
+    </section>
+
+    <!-- Mechanic Dashboard -->
+    <section id="mechanicDashboard" class="hidden flex flex-col min-h-screen bg-gray-100">
+      <header class="bg-indigo-700 text-white p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-semibold">SmartWorkshop - Mechanic Dashboard</h1>
+        <button
+          id="logoutBtnMech"
+          class="bg-indigo-600 hover:bg-indigo-800 px-4 py-2 rounded-md transition"
+          title="Logout"
+        >
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </header>
+
+      <main class="flex-grow p-6 max-w-5xl mx-auto space-y-10">
+        <!-- New Jobs Section -->
+        <section class="bg-white rounded-lg shadow p-6">
+          <h2 class="text-xl font-semibold mb-4 text-indigo-700">New Jobs</h2>
+          <ul id="newJobsList" class="list-disc list-inside text-gray-700 space-y-1">
+            <li class="italic text-gray-400">No new jobs.</li>
+          </ul>
+        </section>
+
+        <!-- Track Repair Section -->
+        <section class="bg-white rounded-lg shadow p-6">
+          <h2 class="text-xl font-semibold mb-4 text-indigo-700">Track Repair</h2>
+          <form id="trackRepairFormMech" class="flex space-x-3">
+            <input
+              type="text"
+              id="trackIdInputMech"
+              name="trackIdInputMech"
+              placeholder="Enter unique service ID"
+              required
+              class="flex-grow border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+            <button
+              type="submit"
+              class="px-5 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+            >
+              Track
+            </button>
+          </form>
+          <div id="trackResultMech" class="mt-4 text-gray-700"></div>
+        </section>
+
+        <!-- Service History Section -->
+        <section class="bg-white rounded-lg shadow p-6">
+          <h2 class="text-xl font-semibold mb-4 text-indigo-700">Service History</h2>
+          <ul id="serviceHistoryList" class="list-disc list-inside text-gray-700 space-y-1">
+            <li class="italic text-gray-400">No service history.</li>
+          </ul>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <script>
+    (() => {
+      // Elements
+      const homeSection = document.getElementById('home');
+      const loginSection = document.getElementById('loginSection');
+      const signupSection = document.getElementById('signupSection');
+      const dashboardSection = document.getElementById('dashboard');
+      const mechanicDashboard = document.getElementById('mechanicDashboard');
+
+      const btnLogin = document.getElementById('btnLogin');
+      const btnSignup = document.getElementById('btnSignup');
+
+      const loginCancel = document.getElementById('loginCancel');
+      const signupCancel = document.getElementById('signupCancel');
+
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+
+      const logoutBtn = document.getElementById('logoutBtn');
+      const logoutBtnMech = document.getElementById('logoutBtnMech');
+
+      const addBikeForm = document.getElementById('addBikeForm');
+      const bikesUl = document.getElementById('bikesUl');
+
+      const bookServiceForm = document.getElementById('bookServiceForm');
+      const servicesUl = document.getElementById('servicesUl');
+
+      const serviceBikeNameSelect = document.getElementById('serviceBikeName');
+      const serviceRegistrationNumberInput = document.getElementById('serviceRegistrationNumber');
+
+      const trackRepairForm = document.getElementById('trackRepairForm');
+      const trackIdInput = document.getElementById('trackIdInput');
+      const trackResult = document.getElementById('trackResult');
+
+      const btnShowAddBike = document.getElementById('btnShowAddBike');
+      const btnShowBookService = document.getElementById('btnShowBookService');
+
+      const addBikeSection = document.getElementById('addBikeSection');
+      const bookServiceSection = document.getElementById('bookServiceSection');
+      const dashboardButtons = document.getElementById('dashboardButtons');
+
+      const backFromAddBike = document.getElementById('backFromAddBike');
+      const backFromBookService = document.getElementById('backFromBookService');
+
+      const trackRepairFormMech = document.getElementById('trackRepairFormMech');
+      const trackIdInputMech = document.getElementById('trackIdInputMech');
+      const trackResultMech = document.getElementById('trackResultMech');
+
+      const toast = document.getElementById('toast');
+
+      // Data stores (simulate DB)
+      let users = [
+        {
+          name: 'demoUser',
+          phone: '1234567890',
+          email: 'demo@smartworkshop.com',
+          password: 'demo123',
+          type: 'customer',
+          bikes: [
+            { model: 'Yamaha R15', regNumber: 'MH12AB1234' },
+            { model: 'Honda CB Shine', regNumber: 'MH14CD5678' },
+          ],
+          services: [
+            {
+              id: 'SRV1001',
+              bikeModel: 'Yamaha R15',
+              regNumber: 'MH12AB1234',
+              repairType: 'Chain Tight',
+              status: 'In Progress',
+              assignedMechanic: 'demoMechanic',
+              bookedOn: '2025-09-01T12:00:00Z',
+            },
+            {
+              id: 'SRV1002',
+              bikeModel: 'Honda CB Shine',
+              regNumber: 'MH14CD5678',
+              repairType: 'Brake Tight',
+              status: 'Completed',
+              assignedMechanic: 'demoMechanic',
+              bookedOn: '2025-08-30T10:00:00Z',
+            },
+          ],
+        },
+        {
+          name: 'demoMechanic',
+          password: 'demo123',
+          type: 'mechanic',
+        },
+      ];
+
+      let currentUser = null;
+
+      // Utility: generate unique service ID
+      function generateServiceId() {
+        return 'SRV' + Math.floor(1000 + Math.random() * 9000);
+      }
+
+      // Utility: show toast notification
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.remove('hidden');
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.classList.add('hidden'), 500);
+        }, 3000);
+      }
+
+      // Show/hide sections
+      function showSection(section) {
+        homeSection.classList.add('hidden');
+        loginSection.classList.add('hidden');
+        signupSection.classList.add('hidden');
+        dashboardSection.classList.add('hidden');
+        mechanicDashboard.classList.add('hidden');
+
+        section.classList.remove('hidden');
+      }
+
+      // Show login modal
+      btnLogin.addEventListener('click', () => {
+        loginForm.reset();
+        showSection(loginSection);
+      });
+
+      // Show signup modal
+      btnSignup.addEventListener('click', () => {
+        signupForm.reset();
+        showSection(signupSection);
+      });
+
+      // Cancel login
+      loginCancel.addEventListener('click', () => {
+        showSection(homeSection);
+      });
+
+      // Cancel signup
+      signupCancel.addEventListener('click', () => {
+        showSection(homeSection);
+      });
+
+      // Login form submit
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = loginForm.loginName.value.trim();
+        const password = loginForm.loginPassword.value;
+
+        const user = users.find(
+          (u) => u.name.toLowerCase() === name.toLowerCase() && u.password === password
+        );
+
+        if (user) {
+          currentUser = user;
+          if (user.type === 'customer') {
+            showDashboard();
+            showSection(dashboardSection);
+          } else if (user.type === 'mechanic') {
+            showMechanicDashboard();
+            showSection(mechanicDashboard);
+          }
+        } else {
+          alert('Invalid name or password. Try demo user: "demoUser"/"demo123" or mechanic: "demoMechanic"/"demo123"');
+        }
+      });
+
+      // Signup form submit (for customers only)
+      signupForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = signupForm.signupName.value.trim();
+        const phone = signupForm.signupPhone.value.trim();
+        const email = signupForm.signupEmail.value.trim();
+        const password = signupForm.signupPassword.value;
+
+        if (users.find((u) => u.name.toLowerCase() === name.toLowerCase())) {
+          alert('User with this name already exists. Please choose another name.');
+          return;
+        }
+
+        const newUser = {
+          name,
+          phone,
+          email,
+          password,
+          type: 'customer',
+          bikes: [],
+          services: [],
+        };
+        users.push(newUser);
+        alert('Signup successful! You can now login.');
+        showSection(homeSection);
+      });
+
+      // Logout for customer
+      logoutBtn.addEventListener('click', () => {
+        currentUser = null;
+        showSection(homeSection);
+      });
+
+      // Logout for mechanic
+      logoutBtnMech.addEventListener('click', () => {
+        currentUser = null;
+        showSection(homeSection);
+      });
+
+      // Show customer dashboard data
+      function showDashboard() {
+        updateBikesList();
+        updateBikeSelect();
+        updateServicesList();
+        bookServiceForm.reset();
+        serviceRegistrationNumberInput.value = '';
+        trackResult.textContent = '';
+        trackIdInput.value = '';
+        dashboardButtons.classList.remove('hidden');
+        addBikeSection.classList.add('hidden');
+        bookServiceSection.classList.add('hidden');
+      }
+
+      // Update bikes list UI
+      function updateBikesList() {
+        if (!currentUser.bikes.length) {
+          bikesUl.innerHTML = '<li class="italic text-gray-400">No bikes added yet.</li>';
+          return;
+        }
+        bikesUl.innerHTML = '';
+        currentUser.bikes.forEach((bike) => {
+          const li = document.createElement('li');
+          li.textContent = `${bike.model} - ${bike.regNumber}`;
+          bikesUl.appendChild(li);
+        });
+      }
+
+      // Update bike select dropdown in book service
+      function updateBikeSelect() {
+        serviceBikeNameSelect.innerHTML = '<option value="" disabled selected>Select your bike</option>';
+        currentUser.bikes.forEach((bike) => {
+          const option = document.createElement('option');
+          option.value = bike.model;
+          option.textContent = bike.model;
+          serviceBikeNameSelect.appendChild(option);
+        });
+      }
+
+      // Update services list UI
+      function updateServicesList() {
+        if (!currentUser.services.length) {
+          servicesUl.innerHTML = '<li class="italic text-gray-400">No service bookings yet.</li>';
+          return;
+        }
+        servicesUl.innerHTML = '';
+        currentUser.services.forEach((service) => {
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>ID:</strong> ${service.id} | <strong>Bike:</strong> ${service.bikeModel} | <strong>Reg No:</strong> ${service.regNumber} | <strong>Repair:</strong> ${service.repairType} | <strong>Status:</strong> ${service.status} | <strong>Booked On:</strong> ${new Date(service.bookedOn).toLocaleDateString()}`;
+          servicesUl.appendChild(li);
+        });
+      }
+
+      // Add bike form submit
+      addBikeForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const model = addBikeForm.bikeModel.value.trim();
+        const regNumber = addBikeForm.registrationNumber.value.trim();
+
+        if (!model || !regNumber) {
+          alert('Please fill in all fields.');
+          return;
+        }
+
+        if (currentUser.bikes.find((b) => b.regNumber.toLowerCase() === regNumber.toLowerCase())) {
+          alert('This registration number is already added.');
+          return;
+        }
+
+        currentUser.bikes.push({ model, regNumber });
+        alert('Bike added successfully!');
+        addBikeForm.reset();
+        updateBikesList();
+        updateBikeSelect();
+      });
+
+      // When bike name changes in book service, update reg number field
+      serviceBikeNameSelect.addEventListener('change', () => {
+        const selectedModel = serviceBikeNameSelect.value;
+        const bike = currentUser.bikes.find((b) => b.model === selectedModel);
+        if (bike) {
+          serviceRegistrationNumberInput.value = bike.regNumber;
+        } else {
+          serviceRegistrationNumberInput.value = '';
+        }
+      });
+
+      // Book service form submit
+      bookServiceForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const bikeModel = bookServiceForm.serviceBikeName.value;
+        const regNumber = bookServiceForm.serviceRegistrationNumber.value;
+        const repairType = bookServiceForm.repairType.value;
+
+        if (!bikeModel || !regNumber || !repairType) {
+          alert('Please fill in all fields.');
+          return;
+        }
+
+        const newService = {
+          id: generateServiceId(),
+          bikeModel,
+          regNumber,
+          repairType,
+          status: 'Pending',
+          bookedOn: new Date().toISOString(),
+        };
+
+        currentUser.services.push(newService);
+        alert(`Service booked successfully! Your service ID is ${newService.id}`);
+        bookServiceForm.reset();
+        serviceRegistrationNumberInput.value = '';
+        updateServicesList();
+      });
+
+      // Track repair form submit for customer
+      trackRepairForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = trackIdInput.value.trim().toUpperCase();
+
+        if (!id) {
+          trackResult.textContent = 'Please enter a service ID.';
+          trackResult.classList.remove('text-green-600', 'text-red-600');
+          trackResult.classList.add('text-gray-700');
+          return;
+        }
+
+        let foundService = null;
+        let foundUser = null;
+        for (const user of users) {
+          const service = user.services.find((s) => s.id.toUpperCase() === id);
+          if (service) {
+            foundService = service;
+            foundUser = user;
+            break;
+          }
+        }
+
+        if (foundService) {
+          trackResult.innerHTML = `
+            <p><strong>Service ID:</strong> ${foundService.id}</p>
+            <p><strong>User:</strong> ${foundUser.name}</p>
+            <p><strong>Bike Model:</strong> ${foundService.bikeModel}</p>
+            <p><strong>Registration Number:</strong> ${foundService.regNumber}</p>
+            <p><strong>Repair Type:</strong> ${foundService.repairType}</p>
+            <p><strong>Status:</strong> ${foundService.status}</p>
+            <p><strong>Booked On:</strong> ${new Date(foundService.bookedOn).toLocaleDateString()}</p>
+          `;
+          trackResult.classList.remove('text-red-600');
+          trackResult.classList.add('text-green-600');
+        } else {
+          trackResult.textContent = 'No service found with this ID.';
+          trackResult.classList.remove('text-green-600');
+          trackResult.classList.add('text-red-600');
+        }
+      });
+
+      // Show Add Bike form only
+      btnShowAddBike.addEventListener('click', () => {
+        dashboardButtons.classList.add('hidden');
+        addBikeSection.classList.remove('hidden');
+        bookServiceSection.classList.add('hidden');
+      });
+
+      // Show Book Service form only
+      btnShowBookService.addEventListener('click', () => {
+        dashboardButtons.classList.add('hidden');
+        bookServiceSection.classList.remove('hidden');
+        addBikeSection.classList.add('hidden');
+      });
+
+      // Back from Add Bike to dashboard buttons
+      backFromAddBike.addEventListener('click', () => {
+        addBikeSection.classList.add('hidden');
+        dashboardButtons.classList.remove('hidden');
+      });
+
+      // Back from Book Service to dashboard buttons
+      backFromBookService.addEventListener('click', () => {
+        bookServiceSection.classList.add('hidden');
+        dashboardButtons.classList.remove('hidden');
+      });
+
+      // Mechanic Dashboard Functions
+      function showMechanicDashboard() {
+        updateNewJobsList();
+        updateServiceHistoryList();
+        trackResultMech.textContent = '';
+        trackIdInputMech.value = '';
+      }
+
+      function updateNewJobsList() {
+        const newJobsUl = document.getElementById('newJobsList');
+        newJobsUl.innerHTML = '';
+        let hasNewJobs = false;
+
+        users.forEach(user => {
+          if (user.type === 'customer') {
+            user.services.forEach(service => {
+              if (service.status === 'Pending') {
+                hasNewJobs = true;
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>ID:</strong> ${service.id} | <strong>Customer:</strong> ${user.name} | <strong>Bike:</strong> ${service.bikeModel} | <strong>Reg:</strong> ${service.regNumber} | <strong>Repair:</strong> ${service.repairType} | <strong>Booked On:</strong> ${new Date(service.bookedOn).toLocaleDateString()}
+                <button class="assignBtn ml-2 px-2 py-1 bg-green-500 text-white rounded" data-service-id="${service.id}" data-customer-name="${user.name}">Assign to Me</button>`;
+                newJobsUl.appendChild(li);
+              }
+            });
+          }
+        });
+
+        if (!hasNewJobs) {
+          newJobsUl.innerHTML = '<li class="italic text-gray-400">No new jobs.</li>';
+        }
+
+        document.querySelectorAll('.assignBtn').forEach(btn => {
+          btn.addEventListener('click', assignJob);
+        });
+      }
+
+      function assignJob(e) {
+        const serviceId = e.target.dataset.serviceId;
+        const customerName = e.target.dataset.customerName;
+
+        const customer = users.find(u => u.name === customerName && u.type === 'customer');
+        if (customer) {
+          const service = customer.services.find(s => s.id === serviceId);
+          if (service) {
+            service.status = 'In Progress';
+            service.assignedMechanic = currentUser.name;
+            showToast(`Job ${serviceId} assigned to ${currentUser.name}`);
+            updateNewJobsList();
+            updateServiceHistoryList();
+          }
+        }
+      }
+
+      function updateServiceHistoryList() {
+        const historyUl = document.getElementById('serviceHistoryList');
+        historyUl.innerHTML = '';
+        let hasHistory = false;
+
+        users.forEach(user => {
+          if (user.type === 'customer') {
+            user.services.forEach(service => {
+              hasHistory = true;
+              const li = document.createElement('li');
+              const assigned = service.assignedMechanic ? ` | <strong>Assigned:</strong> ${service.assignedMechanic}` : '';
+              li.innerHTML = `<strong>ID:</strong> ${service.id} | <strong>Customer:</strong> ${user.name} | <strong>Bike:</strong> ${service.bikeModel} | <strong>Reg:</strong> ${service.regNumber} | <strong>Repair:</strong> ${service.repairType} | <strong>Status:</strong> ${service.status} | <strong>Booked On:</strong> ${new Date(service.bookedOn).toLocaleDateString()}${assigned}`;
+              historyUl.appendChild(li);
+            });
+          }
+        });
+
+        if (!hasHistory) {
+          historyUl.innerHTML = '<li class="italic text-gray-400">No service history.</li>';
+        }
+      }
+
+      // Track repair form submit for mechanic
+      trackRepairFormMech.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = trackIdInputMech.value.trim().toUpperCase();
+
+        if (!id) {
+          trackResultMech.textContent = 'Please enter a service ID.';
+          trackResultMech.classList.remove('text-green-600', 'text-red-600');
+          trackResultMech.classList.add('text-gray-700');
+          return;
+        }
+
+        let foundService = null;
+        let foundUser = null;
+        for (const user of users) {
+          const service = user.services.find((s) => s.id.toUpperCase() === id);
+          if (service) {
+            foundService = service;
+            foundUser = user;
+            break;
+          }
+        }
+
+        if (foundService) {
+          const assigned = foundService.assignedMechanic ? `<p><strong>Assigned Mechanic:</strong> ${foundService.assignedMechanic}</p>` : '';
+          trackResultMech.innerHTML = `
+            <p><strong>Service ID:</strong> ${foundService.id}</p>
+            <p><strong>Customer:</strong> ${foundUser.name}</p>
+            <p><strong>Bike Model:</strong> ${foundService.bikeModel}</p>
+            <p><strong>Registration Number:</strong> ${foundService.regNumber}</p>
+            <p><strong>Repair Type:</strong> ${foundService.repairType}</p>
+            <p><strong>Status:</strong> ${foundService.status}</p>
+            <p><strong>Booked On:</strong> ${new Date(foundService.bookedOn).toLocaleDateString()}</p>
+            ${assigned}
+            <div class="mt-4">
+              <button class="updateStatusBtn px-4 py-2 bg-blue-500 text-white rounded" data-service-id="${foundService.id}" data-customer-name="${foundUser.name}" data-new-status="In Progress">Set In Progress</button>
+              <button class="updateStatusBtn px-4 py-2 bg-green-500 text-white rounded ml-2" data-service-id="${foundService.id}" data-customer-name="${foundUser.name}" data-new-status="Completed">Set Completed</button>
+            </div>
+          `;
+          trackResultMech.classList.remove('text-red-600');
+          trackResultMech.classList.add('text-green-600');
+
+          document.querySelectorAll('.updateStatusBtn').forEach(btn => {
+            btn.addEventListener('click', updateServiceStatus);
+          });
+        } else {
+          trackResultMech.textContent = 'No service found with this ID.';
+          trackResultMech.classList.remove('text-green-600');
+          trackResultMech.classList.add('text-red-600');
+        }
+      });
+
+      function updateServiceStatus(e) {
+        const serviceId = e.target.dataset.serviceId;
+        const customerName = e.target.dataset.customerName;
+        const newStatus = e.target.dataset.newStatus;
+
+        const customer = users.find(u => u.name === customerName && u.type === 'customer');
+        if (customer) {
+          const service = customer.services.find(s => s.id === serviceId);
+          if (service) {
+            service.status = newStatus;
+            showToast(`Status updated to ${newStatus} for ${serviceId}`);
+            trackRepairFormMech.dispatchEvent(new Event('submit'));
+            updateNewJobsList();
+            updateServiceHistoryList();
+          }
+        }
+      }
+
+      // On page load show home
+      showSection(homeSection);
+    })();
+  </script>
+</body>
+</html>
