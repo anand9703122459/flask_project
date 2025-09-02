@@ -72,6 +72,9 @@ def inject_globals():
 @app.route("/")
 def index():
     return render_template("index.html")
+@app.route("/smart")
+def index():
+    return render_template("smart.html")
 
 @app.route("/about")
 def about():
